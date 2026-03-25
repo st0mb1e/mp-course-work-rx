@@ -1,2 +1,6 @@
 rootProject.name = 'mp-course-work-rx'
+include 'src:main:test'
+findProject(':src:main:test')?.name = 'test'
+include 'src:main'
+findProject(':src:main')?.name = 'main'
 

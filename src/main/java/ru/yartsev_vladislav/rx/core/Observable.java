@@ -1,19 +1,23 @@
 package ru.yartsev_vladislav.rx.core;
 
+import ru.yartsev_vladislav.rx.internal.ArrayOnSubscribe;
 import ru.yartsev_vladislav.rx.internal.BooleanDisposable;
 import ru.yartsev_vladislav.rx.internal.IterableOnSubscribe;
+import ru.yartsev_vladislav.rx.operators.FilterObservable;
+import ru.yartsev_vladislav.rx.operators.MapObservable;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class Observable<T> {
-
     public interface OnSubscribe<T> {
         void subscribe(Observer<? super T> observer);
     }
 
     private final OnSubscribe<T> source;
 
-    private Observable(OnSubscribe<T> source) {
+    protected Observable(OnSubscribe<T> source) {
         this.source = source;
     }
 
@@ -24,6 +28,10 @@ public class Observable<T> {
 
     public static <T> Observable<T> create(Iterable<T> source) {
         return new Observable<>(new IterableOnSubscribe<>(source));
+    }
+
+    public static <T> Observable<T> from(T... items) {
+        return create(new ArrayOnSubscribe<>(items));
     }
 
     // базовый subscribe
@@ -85,7 +93,19 @@ public class Observable<T> {
         });
     }
 
+    public Disposable subscribe(Consumer<? super T> onNext, Consumer<? super Throwable> onError) {
+        return subscribe(onNext, onError, () -> {});
+    }
+
     public Disposable subscribe(Consumer<? super T> onNext) {
-        return subscribe(onNext, Throwable::printStackTrace, () -> {});
+        return subscribe(onNext, Throwable::printStackTrace);
+    }
+
+    public Observable<T> filter(Predicate<? super T> predicate) {
+        return new FilterObservable<T>(this, predicate);
+    }
+
+    public <E> Observable<E> map(Function<? super T, E> function) {
+        return new MapObservable<T, E>(this, function);
     }
 }
