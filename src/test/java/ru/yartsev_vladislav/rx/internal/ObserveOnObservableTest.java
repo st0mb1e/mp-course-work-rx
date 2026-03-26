@@ -19,7 +19,7 @@ class ObserveOnObservableTest {
         String[] threadName = new String[1];
 
         Observable.from(1)
-                .observeOn(Schedulers.singleThread())
+                .observeOn(Schedulers.single())
                 .subscribe(
                         item -> threadName[0] = Thread.currentThread().getName(),
                         Throwable::printStackTrace,
@@ -38,7 +38,7 @@ class ObserveOnObservableTest {
         List<Integer> result = new ArrayList<>();
 
         Observable.from(1, 2, 3)
-                .observeOn(Schedulers.singleThread())
+                .observeOn(Schedulers.single())
                 .subscribe(
                         result::add,
                         Throwable::printStackTrace,
@@ -56,7 +56,7 @@ class ObserveOnObservableTest {
         List<Integer> result = new ArrayList<>();
 
         Observable.from(10, 20, 30, 40)
-                .observeOn(Schedulers.singleThread())
+                .observeOn(Schedulers.single())
                 .subscribe(
                         result::add,
                         Throwable::printStackTrace,
@@ -76,7 +76,7 @@ class ObserveOnObservableTest {
 
         Observable<Integer> source = Observable.create(observer -> observer.onError(exception));
 
-        source.observeOn(Schedulers.singleThread())
+        source.observeOn(Schedulers.single())
                 .subscribe(
                         item -> {},
                         e -> {
@@ -96,7 +96,7 @@ class ObserveOnObservableTest {
         boolean[] completed = { false };
 
         Observable.from(1)
-                .observeOn(Schedulers.singleThread())
+                .observeOn(Schedulers.single())
                 .subscribe(
                         item -> {},
                         Throwable::printStackTrace,

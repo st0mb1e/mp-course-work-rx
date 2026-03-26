@@ -9,7 +9,7 @@ public class Schedulers {
         return new ComputationScheduler();
     }
 
-    public static Scheduler singleThread() {
+    public static Scheduler single() {
         return new SingleThreadScheduler();
     }
 }

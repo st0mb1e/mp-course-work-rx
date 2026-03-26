@@ -113,8 +113,8 @@ public class Observable<T> {
         return new FlatMapObservable<>(this, mapper);
     }
 
-    public <R> Observable<R> map(Function<? super T, R> function) {
-        return new MapObservable<T, R>(this, function);
+    public <R> Observable<R> map(Function<? super T, R> mapper) {
+        return new MapObservable<T, R>(this, mapper);
     }
 
     public Observable<T> subscribeOn(Scheduler scheduler) {

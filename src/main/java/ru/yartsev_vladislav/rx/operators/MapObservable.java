@@ -6,13 +6,13 @@ import ru.yartsev_vladislav.rx.core.Observer;
 import java.util.function.Function;
 
 public class MapObservable<R, T> extends Observable<T> {
-    public MapObservable(Observable<R> source, Function<? super R, T> function) {
+    public MapObservable(Observable<R> source, Function<? super R, T> mapper) {
         super(observer -> {
             source.subscribe(new Observer<R>() {
                 @Override
                 public void onNext(R item) {
                     try {
-                        observer.onNext(function.apply(item));
+                        observer.onNext(mapper.apply(item));
                     } catch (Throwable t) {
                         observer.onError(t);
                     }

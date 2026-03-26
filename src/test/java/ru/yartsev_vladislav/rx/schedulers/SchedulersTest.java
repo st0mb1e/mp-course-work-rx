@@ -52,7 +52,7 @@ class SchedulersTest {
     }
 
     @Test
-    void singleThreadScheduler_shouldUseSingleThreadThread() throws InterruptedException {
+    void singleThreadScheduler_shouldUseSingleThread() throws InterruptedException {
         SingleThreadScheduler scheduler = new SingleThreadScheduler();
 
         CountDownLatch latch = new CountDownLatch(5);
@@ -72,7 +72,7 @@ class SchedulersTest {
     }
 
     @Test
-    void singleThreadThreadScheduler_shouldExecuteTasksSequentially() throws InterruptedException {
+    void singleThreadScheduler_shouldExecuteTasksSequentially() throws InterruptedException {
         SingleThreadScheduler scheduler = new SingleThreadScheduler();
 
         CountDownLatch latch = new CountDownLatch(3);
