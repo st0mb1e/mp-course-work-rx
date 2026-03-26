@@ -5,12 +5,12 @@ import ru.yartsev_vladislav.rx.core.Observer;
 
 import java.util.function.Function;
 
-public class MapObservable<E, T> extends Observable<T> {
-    public MapObservable(Observable<E> source, Function<? super E, T> function) {
+public class MapObservable<R, T> extends Observable<T> {
+    public MapObservable(Observable<R> source, Function<? super R, T> function) {
         super(observer -> {
-            source.subscribe(new Observer<E>() {
+            source.subscribe(new Observer<R>() {
                 @Override
-                public void onNext(E item) {
+                public void onNext(R item) {
                     try {
                         observer.onNext(function.apply(item));
                     } catch (Throwable t) {

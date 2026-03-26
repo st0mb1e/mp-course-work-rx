@@ -3,8 +3,12 @@ package ru.yartsev_vladislav.rx.core;
 import ru.yartsev_vladislav.rx.internal.ArrayOnSubscribe;
 import ru.yartsev_vladislav.rx.internal.BooleanDisposable;
 import ru.yartsev_vladislav.rx.internal.IterableOnSubscribe;
+import ru.yartsev_vladislav.rx.internal.ObserveOnObservable;
+import ru.yartsev_vladislav.rx.internal.SubscribeOnObservable;
 import ru.yartsev_vladislav.rx.operators.FilterObservable;
+import ru.yartsev_vladislav.rx.operators.FlatMapObservable;
 import ru.yartsev_vladislav.rx.operators.MapObservable;
+import ru.yartsev_vladislav.rx.schedulers.Scheduler;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -105,7 +109,19 @@ public class Observable<T> {
         return new FilterObservable<T>(this, predicate);
     }
 
-    public <E> Observable<E> map(Function<? super T, E> function) {
-        return new MapObservable<T, E>(this, function);
+    public <R> Observable<R> flatMap(Function<? super T, Observable<? extends R>> mapper) {
+        return new FlatMapObservable<>(this, mapper);
+    }
+
+    public <R> Observable<R> map(Function<? super T, R> function) {
+        return new MapObservable<T, R>(this, function);
+    }
+
+    public Observable<T> subscribeOn(Scheduler scheduler) {
+        return new SubscribeOnObservable<>(this, scheduler);
+    }
+
+    public Observable<T> observeOn(Scheduler scheduler) {
+        return new ObserveOnObservable<>(this, scheduler);
     }
 }
